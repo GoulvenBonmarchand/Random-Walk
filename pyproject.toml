@@ -7,7 +7,9 @@ authors = [
     { name = "GoulvenBonmarchand", email = "goulven.bonmarchand@gmail.com" }
 ]
 requires-python = ">=3.13"
-dependencies = []
+dependencies = [
+    "argparse>=1.4.0",
+]
 
 [project.scripts]
 random-walk = "random_walk.main:main"
@@ -15,3 +17,9 @@ random-walk = "random_walk.main:main"
 [build-system]
 requires = ["uv_build>=0.9.5,<0.10.0"]
 build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "mypy>=1.19.1",
+    "ruff>=0.14.14",
+]
