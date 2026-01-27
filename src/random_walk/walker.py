@@ -1,18 +1,23 @@
 class Walker:
-    def __init__(self) -> None:
+    def __init__(self, step_model) -> None:
         self._x = 0
         self._y = 0
+        self._chemin = [(self._x, self._y)]
+        self._model = step_model
     
     @property
     def position(self) -> tuple[int, int]:
         return (self._x, self._y)
-    
-    def walk(self, step_model) -> None:
+
+    @property
+    def chemin(self) -> list[tuple[int, int]]:
+        return self._chemin
+
+    def walk(self) -> None:
         """
         Fait un pas : selon le modèle aléatoire choisi, met à jour la position du marcheur.
         """
-        dx, dy = step_model.next_step()
+        dx, dy = self._model.next_step()
         self._x += dx
         self._y += dy
-
-
+        self._chemin.append((self._x, self._y))

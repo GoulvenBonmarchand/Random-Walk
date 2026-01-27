@@ -1,16 +1,9 @@
 class World:
-    def __init__(self, hwidth = 30, hheight = 30) -> None:
-        self._walkers = Walker()
-        self._hwidth = hwidth
-        self._hheight = hheight
+    def __init__(self, nmb_walkers = 1, step_model = None) -> None:
+        self._walkers = [Walker() for _ in range(nmb_walkers)]
 
-    @setter
-    def set_width(self, hwidth : int) -> None:
-        self._hwidth = hwidth
-
-    @setter
-    def set_height(self, hheight : int) -> None:   
-        self._hheight = hheight
+    def add_walker(self, walker : Walker) -> None:
+        self._walkers.append(walker)
 
     @property
     def hwidth(self) -> int:
@@ -19,6 +12,10 @@ class World:
     @property
     def hheight(self) -> int:
         return self._hheight
+
+    def step(self) -> None:
+        for walker in self._walkers:
+            walker.walk()
 
     
 
