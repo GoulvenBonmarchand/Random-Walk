@@ -29,3 +29,14 @@ class Grid8(StepModel):
             ]
         )
         return (dx, dy)
+
+class Continuous(StepModel):
+    def __init__(self, radius=2.0:float) -> None:
+        self.radius = radius
+    def sample_delta(self, rng) -> tuple[float, float]:
+        u = rng.random()                 # U ~ Uniform(0,1)
+        theta = rng.uniform(0.0, 2 * math.pi)
+        r = self.radius * math.sqrt(u)   # correction d'aire
+        dx = r * math.cos(theta)
+        dy = r * math.sin(theta)
+        return dx, dy

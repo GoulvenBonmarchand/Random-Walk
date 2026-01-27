@@ -27,7 +27,7 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument( 
         "--pattern", 
         type=str, 
-        choices=["grid4", "grid8"], 
+        choices=["grid4", "grid8", "continuous"], 
         default="grid4", 
         help="Modèle de marche aléatoire à utiliser." )
     return p
