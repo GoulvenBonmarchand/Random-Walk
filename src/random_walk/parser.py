@@ -24,4 +24,10 @@ def build_parser() -> argparse.ArgumentParser:
         default=1,
         help="Nombre de marcheurs à simuler.",
     )
+    p.add_argument( 
+        "--pattern", 
+        type=str, 
+        choices=["grid4", "grid8"], 
+        default="grid4", 
+        help="Modèle de marche aléatoire à utiliser." )
     return p
