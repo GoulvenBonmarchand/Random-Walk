@@ -1,6 +1,9 @@
+from walk_paterns import
+from walker import Walker
+
 class World:
-    def __init__(self, nmb_walkers = 1, step_model = None) -> None:
-        self._walkers = [Walker() for _ in range(nmb_walkers)]
+    def __init__(self, nmb_walkers = 1, step_model = Grid4) -> None:
+        self._walkers = [Walker(step_model) for _ in range(nmb_walkers)]
 
     def add_walker(self, walker : Walker) -> None:
         self._walkers.append(walker)
@@ -16,6 +19,10 @@ class World:
     def step(self) -> None:
         for walker in self._walkers:
             walker.walk()
+
+    def simulate(self, nmb_steps : int) -> None:
+        for _ in range(nmb_steps):
+            self.step()
 
     
 

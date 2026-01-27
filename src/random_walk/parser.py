@@ -24,5 +24,4 @@ def build_parser() -> argparse.ArgumentParser:
         default=1,
         help="Nombre de marcheurs à simuler.",
     )
-    p.add_argument(
     return p

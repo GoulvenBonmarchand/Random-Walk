@@ -3,7 +3,7 @@ class Walker:
         self._x = 0
         self._y = 0
         self._chemin = [(self._x, self._y)]
-        self._model = step_model
+        self._model = step_model()
     
     @property
     def position(self) -> tuple[int, int]:
