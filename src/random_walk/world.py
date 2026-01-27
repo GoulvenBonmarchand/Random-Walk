@@ -7,14 +7,6 @@ class World:
     def add_walker(self, walker : Walker) -> None:
         self._walkers.append(walker)
 
-    @property
-    def hwidth(self) -> int:
-        return self._hwidth
-    
-    @property
-    def hheight(self) -> int:
-        return self._hheight
-
     def step(self) -> None:
         for walker in self._walkers:
             walker.walk()
@@ -22,6 +14,14 @@ class World:
     def simulate(self, nmb_steps : int) -> None:
         for _ in range(nmb_steps):
             self.step()
+        
+    def to_file(self, filename : str) -> None:
+        with open(filename, "w") as f:
+            for i, walker in enumerate(self._walkers):
+                f.write(f"# Walker {i}\n")
+                for x, y in walker.chemin:
+                    f.write(f"{x} {y}\n")
+                f.write("\n")
 
     
 
