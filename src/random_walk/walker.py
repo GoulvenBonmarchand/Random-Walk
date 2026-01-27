@@ -1,16 +1,16 @@
 class Walker:
     def __init__(self, step_model) -> None:
-        self._x = 0
-        self._y = 0
+        self._x = 0.0
+        self._y = 0.0
         self._chemin = [(self._x, self._y)]
         self._model = step_model()
     
     @property
-    def position(self) -> tuple[int, int]:
+    def position(self) -> tuple[float, float]:
         return (self._x, self._y)
 
     @property
-    def chemin(self) -> list[tuple[int, int]]:
+    def chemin(self) -> list[tuple[float, float]]:
         return self._chemin
 
     def walk(self) -> None:

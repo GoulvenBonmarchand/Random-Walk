@@ -1,7 +1,7 @@
 from walker import Walker
 
 class World:
-    def __init__(self, step_model, nmb_walkers = 1) -> None:
+    def __init__(self, step_model, nmb_walkers) -> None:
         self._walkers = [Walker(step_model) for _ in range(nmb_walkers)]
 
     def add_walker(self, walker : Walker) -> None:
