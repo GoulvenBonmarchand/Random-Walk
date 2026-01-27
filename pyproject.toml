@@ -1,0 +1,17 @@
+[project]
+name = "random-walk"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "GoulvenBonmarchand", email = "goulven.bonmarchand@gmail.com" }
+]
+requires-python = ">=3.13"
+dependencies = []
+
+[project.scripts]
+random-walk = "random_walk:main"
+
+[build-system]
+requires = ["uv_build>=0.9.5,<0.10.0"]
+build-backend = "uv_build"
