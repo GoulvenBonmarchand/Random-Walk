@@ -1,7 +1,5 @@
-import pygame
-
 class Button():
-    def __init__(self,image, text, pos, font, base_color="white", hovering_color="green", screen):
+    def __init__(self, text, pos, font, screen, base_color="white", hovering_color="green", image=None):
         self._text = text
         self._text_rect = self._text.get_rect(center=pos)
         self._image = image
