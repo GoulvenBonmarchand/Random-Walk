@@ -10,7 +10,7 @@ def build_parser() -> argparse.ArgumentParser:
         "--seed",
         type=int,
         default=None,
-        help="Graine pour l'initialisation du générateur de nombres aléatoires.",
+        help="Graine pour l'initialisation du générateur de nombres aléatoires. Par défaut, une graine aléatoire est utilisée.",
     )
     p.add_argument(
         "--steps",
@@ -29,5 +29,5 @@ def build_parser() -> argparse.ArgumentParser:
         type=str, 
         choices=["grid4", "grid8", "continuous"], 
         default="grid4", 
-        help="Modèle de marche aléatoire à utiliser." )
+        help="Modèle de marche aléatoire à utiliser parmis grid4, grid8 ou continuous." )
     return p

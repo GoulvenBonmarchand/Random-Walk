@@ -6,3 +6,4 @@ def main() -> None:
     print("In development...")
     args = build_parser().parse_args()
     seed(args.seed)
+    
