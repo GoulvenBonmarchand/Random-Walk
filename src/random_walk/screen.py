@@ -1,6 +1,6 @@
 import pygame
-from button import Button
-from world import World
+from .button import Button
+from .world import World
 
 class Screen:
     def __init__(self, world: World) -> None:
@@ -134,7 +134,6 @@ class Screen:
 
             pygame.display.flip()
             self._clock.tick(24)
-
 
 
 
