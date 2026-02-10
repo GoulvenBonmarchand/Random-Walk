@@ -1,4 +1,4 @@
-from walker import Walker
+from .walker import Walker
 
 class World:
     def __init__(self, step_model, nmb_walkers  : int) -> None:
