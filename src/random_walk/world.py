@@ -1,27 +1,92 @@
+﻿"""World container for multiple walkers and simulation helpers."""
+
+import logging
+
 from .walker import Walker
 
-class World:
-    def __init__(self, step_model, nmb_walkers  : int) -> None:
-        self._walkers = [Walker(step_model) for _ in range(nmb_walkers)]
+logger = logging.getLogger(__name__)
 
-    def add_walker(self, walker : Walker) -> None:
+
+class World:
+    """
+    Collection of walkers and batch simulation utilities.
+
+    Args:
+        step_model (type): Callable returning a step model instance.
+        nmb_walkers (int): Number of walkers to create.
+
+    Attributes:
+        _walkers (list[Walker]): List of walkers in the world.
+    """
+
+    def __init__(self, step_model, nmb_walkers: int) -> None:
+        """
+        Create a world with a given number of walkers.
+
+        Args:
+            step_model (type): Callable returning a step model instance.
+            nmb_walkers (int): Number of walkers to create.
+
+        Returns:
+            None.
+        """
+        self._walkers = [Walker(step_model) for _ in range(nmb_walkers)]
+        logger.debug("World cree avec %s marcheurs", nmb_walkers)
+
+    def add_walker(self, walker: Walker) -> None:
+        """
+        Add an existing walker to the world.
+
+        Args:
+            walker (Walker): Walker instance to add.
+
+        Returns:
+            None.
+        """
         self._walkers.append(walker)
+        logger.info("Ajout d'un marcheur. Total=%s", len(self._walkers))
 
     def step(self) -> None:
+        """
+        Advance all walkers by one step.
+
+        Args:
+            None.
+
+        Returns:
+            None.
+        """
         for walker in self._walkers:
             walker.walk()
 
-    def simulate(self, nmb_steps : int) -> None:
+    def simulate(self, nmb_steps: int) -> None:
+        """
+        Run multiple steps of the simulation.
+
+        Args:
+            nmb_steps (int): Number of steps to run.
+
+        Returns:
+            None.
+        """
+        logger.debug("Simulation en mode batch: %s pas", nmb_steps)
         for _ in range(nmb_steps):
             self.step()
-        
-    def to_file(self, filename : str) -> None:
+
+    def to_file(self, filename: str) -> None:
+        """
+        Write all walker paths to a text file.
+
+        Args:
+            filename (str): Path to the output file.
+
+        Returns:
+            None.
+        """
         with open(filename, "w") as f:
             for i, walker in enumerate(self._walkers):
                 f.write(f"# Walker {i}\n")
                 for x, y in walker.chemin:
                     f.write(f"{x} {y}\n")
                 f.write("\n")
-
-    
-
+        logger.info("Trajectoires ecrites dans %s", filename)
