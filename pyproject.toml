@@ -9,6 +9,7 @@ authors = [
 requires-python = ">=3.13"
 dependencies = [
     "argparse>=1.4.0",
+    "logging>=0.4.9.6",
     "pygame>=2.6.1",
 ]
 

@@ -1,15 +1,60 @@
+﻿"""Pygame rendering and event loop for the simulation."""
+
+import logging
 import pygame
 from .button import Button
 from .world import World
 
+logger = logging.getLogger(__name__)
+
+
 class Screen:
-    def __init__(self, world: World) -> None:
+    """
+    Main UI controller for menu and simulation views.
+
+    Args:
+        world (World): World instance to simulate and render.
+        simulation_fps (int): Target FPS for the simulation loop.
+        max_steps (int | None): Maximum steps to run (None for unlimited).
+
+    Attributes:
+        _screen (pygame.Surface): Pygame screen surface.
+        _clock (pygame.time.Clock): Frame timer.
+        _world (World): World instance.
+        _simulation_fps (int): Target FPS for simulation.
+        _max_steps (int | None): Maximum steps to run.
+    """
+
+    def __init__(self, world: World, simulation_fps: int = 24, max_steps: int | None = None) -> None:
+        """
+        Create a screen bound to a world and simulation FPS.
+
+        Args:
+            world (World): World instance to simulate and render.
+            simulation_fps (int): Target FPS for the simulation loop.
+            max_steps (int | None): Maximum steps to run (None for unlimited).
+
+        Returns:
+            None.
+        """
         pygame.init()
         self._screen = pygame.display.set_mode((1280, 720))
         self._clock = pygame.time.Clock()
         self._world = world
+        self._simulation_fps = simulation_fps
+        self._max_steps = max_steps
 
     def main_menue(self) -> None:
+        """
+        Run the main menu loop.
+
+        Args:
+            None.
+
+        Returns:
+            None.
+        """
+        logger.info("Ouverture du menu principal")
         pygame.display.set_caption("Random Walk")
         font = pygame.font.SysFont("Arial", 48)
 
@@ -34,25 +79,37 @@ class Screen:
                 font=font,
                 screen=self._screen,
             )
-            
+
             self._screen.blit(MENU_TEXT, MENU_RECT)
-            
+
             for button in [START_BUTTON, QUIT_BUTTON]:
                 button.change_color(MENU_MOUSE_POS)
                 button.update()
-            
+
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if START_BUTTON.check_for_input(MENU_MOUSE_POS):
+                        logger.info("Lancement de la simulation depuis le menu")
                         self.simulation()
                     if QUIT_BUTTON.check_for_input(MENU_MOUSE_POS):
+                        logger.info("Fermeture depuis le menu")
                         running = False
             pygame.display.update()
             self._clock.tick(60)
-    
+
     def simulation(self) -> None:
+        """
+        Run the simulation loop.
+
+        Args:
+            None.
+
+        Returns:
+            None.
+        """
+        logger.info("Debut de la simulation")
         pygame.display.set_caption("Random Walk - Simulation")
         font = pygame.font.SysFont("Arial", 20)
 
@@ -70,8 +127,18 @@ class Screen:
         min_y = max_y = 0.0
         paused = False
         running = True
+        steps_done = 0
 
         def update_bounds() -> None:
+            """
+            Update world bounds from walker positions.
+
+            Args:
+                None.
+
+            Returns:
+                None.
+            """
             nonlocal min_x, max_x, min_y, max_y
             for walker in walkers:
                 x, y = walker.position
@@ -90,13 +157,23 @@ class Screen:
                     running = False
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
+                        logger.info("Fermeture de la simulation (ESC)")
                         running = False
                     if event.key in (pygame.K_SPACE, pygame.K_p):
                         paused = not paused
+                        logger.debug("Pause=%s", paused)
 
             if not paused:
-                world.step()
-                update_bounds()
+                if self._max_steps is not None and steps_done >= self._max_steps:
+                    logger.info("Fin de la simulation apres %s pas", steps_done)
+                    running = False
+                else:
+                    world.step()
+                    steps_done += 1
+                    update_bounds()
+                    if self._max_steps is not None and steps_done >= self._max_steps:
+                        logger.info("Fin de la simulation apres %s pas", steps_done)
+                        running = False
 
             screen_w, screen_h = self._screen.get_size()
             world_w = max_x - min_x
@@ -110,6 +187,16 @@ class Screen:
             offset_y = (screen_h - world_h * scale) / 2
 
             def to_screen(x: float, y: float) -> tuple[int, int]:
+                """
+                Convert world coordinates to screen coordinates.
+
+                Args:
+                    x (float): World X coordinate.
+                    y (float): World Y coordinate.
+
+                Returns:
+                    tuple[int, int]: Screen pixel coordinates.
+                """
                 sx = offset_x + (x - min_x) * scale
                 sy = offset_y + (max_y - y) * scale
                 return int(sx), int(sy)
@@ -133,7 +220,4 @@ class Screen:
                 self._screen.blit(info, (10, 10))
 
             pygame.display.flip()
-            self._clock.tick(24)
-
-
-
+            self._clock.tick(self._simulation_fps)

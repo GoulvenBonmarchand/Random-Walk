@@ -1,5 +1,48 @@
+﻿"""Pygame button widget utilities."""
+
+
 class Button:
+    """
+    Clickable button with optional image and text.
+
+    Args:
+        text (str | Any): Label string or pre-rendered surface.
+        pos (tuple[int, int]): Center position in pixels.
+        font (Any): Font used to render the label.
+        screen (Any): Screen surface to draw on.
+        base_color (str | tuple): Default text color.
+        hovering_color (str | tuple): Hover text color.
+        image (Any | None): Optional image surface.
+
+    Attributes:
+        _label (str | None): Stored label text.
+        _text (Any): Rendered text surface.
+        _text_rect (Any): Rect for the text surface.
+        _image (Any | None): Optional image surface.
+        _rect (Any): Rect used for hit-testing and drawing.
+        _pos (tuple[int, int]): Button center position.
+        _font (Any): Font used to render text.
+        _base_color (str | tuple): Default text color.
+        _hovering_color (str | tuple): Hover text color.
+        _screen (Any): Target screen surface.
+    """
+
     def __init__(self, text, pos, font, screen, base_color="white", hovering_color="green", image=None):
+        """
+        Initialize a button with text, position, and colors.
+
+        Args:
+            text (str | Any): Label string or pre-rendered surface.
+            pos (tuple[int, int]): Center position in pixels.
+            font (Any): Font used to render the label.
+            screen (Any): Screen surface to draw on.
+            base_color (str | tuple): Default text color.
+            hovering_color (str | tuple): Hover text color.
+            image (Any | None): Optional image surface.
+
+        Returns:
+            None.
+        """
         self._label = text if isinstance(text, str) else None
         if self._label is None:
             self._text = text
@@ -18,16 +61,43 @@ class Button:
         self._screen = screen
 
     def update(self):
+        """
+        Draw the button onto the screen.
+
+        Args:
+            None.
+
+        Returns:
+            None.
+        """
         if self._image is not None:
             self._screen.blit(self._image, self._rect)
         self._screen.blit(self._text, self._text_rect)
-    
+
     def check_for_input(self, position):
+        """
+        Return True if the given position is inside the button.
+
+        Args:
+            position (tuple[int, int]): Mouse position in pixels.
+
+        Returns:
+            bool: True if inside the button, otherwise False.
+        """
         if position[0] in range(self._rect.left, self._rect.right) and position[1] in range(self._rect.top, self._rect.bottom):
             return True
         return False
-    
+
     def change_color(self, position):
+        """
+        Update text color depending on hover state.
+
+        Args:
+            position (tuple[int, int]): Mouse position in pixels.
+
+        Returns:
+            None.
+        """
         if self._label is None:
             return
         if position[0] in range(self._rect.left, self._rect.right) and position[1] in range(self._rect.top, self._rect.bottom):
@@ -35,6 +105,3 @@ class Button:
         else:
             color = self._base_color
         self._text = self._font.render(self._label, True, color)
-        
-        
-    

@@ -143,14 +143,20 @@ def test_parser_defaults() -> None:
     args = parser.parse_args([])
     assert args.seed is None
     assert args.steps == 1000
+    assert args.fps == 24
+    assert args.verbose == 0
     assert args.walkers == 1
     assert args.pattern == "grid4"
 
 
 def test_parser_custom_args() -> None:
     parser = build_parser()
-    args = parser.parse_args(["--seed", "5", "--steps", "10", "--walkers", "3", "--pattern", "grid8"])
+    args = parser.parse_args(
+        ["--seed", "5", "--steps", "10", "--fps", "30", "-vv", "--walkers", "3", "--pattern", "grid8"]
+    )
     assert args.seed == 5
     assert args.steps == 10
+    assert args.fps == 30
+    assert args.verbose == 2
     assert args.walkers == 3
     assert args.pattern == "grid8"
