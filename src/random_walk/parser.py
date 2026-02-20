@@ -59,7 +59,7 @@ def build_parser() -> argparse.ArgumentParser:
     """
     p = argparse.ArgumentParser(
         prog="random-walk-2d",
-        description="Simulation d'une marche aléatoire 2D (POO) avec affichage.",
+        description="Simulation d'une marche aléatoire 2D (POO) avec affichage configurable.",
     )
 
     p.add_argument(
@@ -79,6 +79,23 @@ def build_parser() -> argparse.ArgumentParser:
         type=_positive_int,
         default=24,
         help="Nombre d'images par seconde (FPS) pour la simulation.",
+    )
+    p.add_argument(
+        "--display",
+        type=str,
+        choices=["screen", "text", "both"],
+        default="text",
+        help=(
+            "Mode d'affichage: screen pour l'interface, text pour ecrire les trajectoires dans un fichier .txt, "
+            "both pour lancer l'interface puis ecrire le fichier a la fermeture."
+        ),
+    )
+    p.add_argument(
+        "-o",
+        "--output",
+        type=str,
+        default="random_walk.txt",
+        help="Fichier de sortie en mode text/both (par defaut: random_walk.txt).",
     )
     p.add_argument(
         "-v",
