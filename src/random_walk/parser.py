@@ -83,16 +83,19 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument(
         "--display",
         type=str,
-        choices=["screen", "text"],
+        choices=["screen", "text", "both"],
         default="text",
-        help="Mode d'affichage: screen pour l'interface, text pour ecrire les trajectoires dans un fichier .txt.",
+        help=(
+            "Mode d'affichage: screen pour l'interface, text pour ecrire les trajectoires dans un fichier .txt, "
+            "both pour lancer l'interface puis ecrire le fichier a la fermeture."
+        ),
     )
     p.add_argument(
         "-o",
         "--output",
         type=str,
         default="random_walk.txt",
-        help="Fichier de sortie en mode text (par defaut: random_walk.txt).",
+        help="Fichier de sortie en mode text/both (par defaut: random_walk.txt).",
     )
     p.add_argument(
         "-v",

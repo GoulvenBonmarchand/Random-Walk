@@ -52,13 +52,15 @@ def main() -> None:
         raise ValueError(f"Unknown pattern: {args.pattern}")
 
     world = World(step_model, args.walkers)
-    if args.display == "screen":
+    if args.display in ("screen", "both"):
         from .screen import Screen
 
         screen = Screen(world, simulation_fps=args.fps, max_steps=args.steps)
         logger.info("Interface lancee")
         screen.main_menue()
-    else:
-        world.simulate(args.steps)
+
+    if args.display in ("text", "both"):
+        if args.display == "text":
+            world.simulate(args.steps)
         world.to_file(args.output)
         logger.info("Trajectoires ecrites dans %s", args.output)
