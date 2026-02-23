@@ -8,6 +8,8 @@ from random_walk.walker import Walker
 from random_walk.world import World
 
 
+# Modeles deterministes pour tester les trajectoires.
+# Ils permettent de verifier des positions exactes sans alea.
 class FixedStepModel:
     def __init__(self, dx=1.0, dy=-1.0) -> None:
         self.dx = dx

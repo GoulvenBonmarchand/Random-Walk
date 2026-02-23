@@ -19,6 +19,7 @@ class Walker:
         Returns:
             None.
         """
+        # Etat interne et historique du trajet.
         self._x = 0.0
         self._y = 0.0
         self._chemin = [(self._x, self._y)]
@@ -60,6 +61,7 @@ class Walker:
         Returns:
             None.
         """
+        # Avance d'un pas et memorise la nouvelle position.
         dx, dy = self._model.next_step()
         self._x += dx
         self._y += dy

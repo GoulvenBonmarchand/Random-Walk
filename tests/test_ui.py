@@ -6,6 +6,8 @@ from random_walk.button import Button
 from random_walk.world import World
 
 
+# Doubles simples pour isoler l'UI pygame sans fenetre reelle.
+# L'objectif est de simuler juste assez de comportement pour tester la logique.
 class DummyRect:
     def __init__(self, center=(0, 0), size=(100, 50)) -> None:
         cx, cy = center
@@ -55,6 +57,8 @@ class FixedStepModel:
 
 
 def make_fake_pygame(mouse_pos=(0, 0)) -> ModuleType:
+    # Faux module pygame pour piloter la boucle d'evenements
+    # et eviter toute dependance graphique pendant les tests.
     fake = ModuleType("pygame")
     fake.QUIT = 256
     fake.MOUSEBUTTONDOWN = 1025
@@ -100,6 +104,7 @@ def make_fake_pygame(mouse_pos=(0, 0)) -> ModuleType:
 
 
 def import_screen(monkeypatch, fake_pygame):
+    # Recharge l'ecran avec le faux pygame injecte dans sys.modules.
     monkeypatch.setitem(sys.modules, "pygame", fake_pygame)
     if "random_walk.screen" in sys.modules:
         del sys.modules["random_walk.screen"]
@@ -107,6 +112,7 @@ def import_screen(monkeypatch, fake_pygame):
 
 
 def test_button_hit_testing_and_colors() -> None:
+    # Verifie detection du clic et changement de couleur au survol.
     font = DummyFont()
     screen = DummySurface()
     btn = Button("Go", (10, 10), font, screen, base_color="white", hovering_color="green")
@@ -121,6 +127,7 @@ def test_button_hit_testing_and_colors() -> None:
 
 
 def test_button_no_label_short_circuits_color_change() -> None:
+    # Si le bouton a une surface pre-rendue, on ne recolore pas le texte.
     font = DummyFont()
     screen = DummySurface()
     surface = DummySurface()
@@ -132,6 +139,7 @@ def test_button_no_label_short_circuits_color_change() -> None:
 
 
 def test_button_update_with_image() -> None:
+    # Quand une image est fournie, on attend deux blits (image + texte).
     font = DummyFont()
     screen = DummySurface()
     image = DummySurface()
@@ -142,6 +150,7 @@ def test_button_update_with_image() -> None:
 
 
 def test_screen_main_menu_quit_button(monkeypatch) -> None:
+    # Simule un clic sur Quit et verifie que la boucle peut se terminer.
     fake = make_fake_pygame(mouse_pos=(640, 500))
     fake._set_events([[SimpleNamespace(type=fake.MOUSEBUTTONDOWN)]])
     screen_mod = import_screen(monkeypatch, fake)
@@ -152,6 +161,8 @@ def test_screen_main_menu_quit_button(monkeypatch) -> None:
 
 
 def test_screen_simulation_pause_and_max_steps(monkeypatch) -> None:
+    # Pause/relance puis arret automatique a max_steps.
+    # On verifie que le monde a bien avance d'un pas.
     fake = make_fake_pygame()
     fake._set_events(
         [
@@ -169,6 +180,7 @@ def test_screen_simulation_pause_and_max_steps(monkeypatch) -> None:
 
 
 def test_screen_simulation_quit_event(monkeypatch) -> None:
+    # Un event QUIT doit sortir proprement de la simulation.
     fake = make_fake_pygame()
     fake._set_events([[SimpleNamespace(type=fake.QUIT)]])
     screen_mod = import_screen(monkeypatch, fake)

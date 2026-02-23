@@ -58,7 +58,7 @@ class Grid4(StepModel):
         Returns:
             tuple[float, float]: Delta step.
         """
-        # N, S, E, W
+        # Tirage uniforme parmi les 4 directions cardinales.
         dx, dy = random.choice([(1.0, 0.0), (-1.0, 0.0), (0.0, 1.0), (0.0, -1.0)])
         return (dx, dy)
 
@@ -80,7 +80,7 @@ class Grid8(StepModel):
         Returns:
             tuple[float, float]: Delta step.
         """
-        # N, S, E, W, NE, NW, SE, SW
+        # Tirage uniforme parmi les 8 directions (incluant diagonales).
         dx, dy = random.choice(
             [
                 (1.0, 0.0),
@@ -129,6 +129,7 @@ class Continuous(StepModel):
         Returns:
             tuple[float, float]: Delta step.
         """
+        # Echantillonnage uniforme dans un disque de rayon fixe.
         u = rng.random()  # U ~ Uniform(0,1)
         theta = rng.uniform(0.0, 2 * math.pi)
         r = self.radius * math.sqrt(u)

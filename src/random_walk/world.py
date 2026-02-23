@@ -27,6 +27,7 @@ class World:
         Returns:
             None.
         """
+        # Initialise une population de marcheurs independants.
         self._walkers = [Walker(step_model) for _ in range(nmb_walkers)]
         logger.debug("World cree avec %s marcheurs", nmb_walkers)
 
@@ -53,6 +54,7 @@ class World:
         Returns:
             None.
         """
+        # Applique un pas a tous les marcheurs.
         for walker in self._walkers:
             walker.walk()
 
@@ -67,6 +69,7 @@ class World:
             None.
         """
         logger.debug("Simulation en mode batch: %s pas", nmb_steps)
+        # Boucle de simulation simple, sans interface graphique.
         for _ in range(nmb_steps):
             self.step()
 
@@ -80,6 +83,7 @@ class World:
         Returns:
             None.
         """
+        # Export texte: un bloc par marcheur, puis les points du trajet.
         with open(filename, "w") as f:
             for i, walker in enumerate(self._walkers):
                 f.write(f"# Walker {i}\n")

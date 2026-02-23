@@ -30,6 +30,7 @@ class Screen:
         Returns:
             None.
         """
+        # Initialisation Pygame et parametrage global de l'ecran.
         pygame.init()
         self._screen = pygame.display.set_mode((1280, 720))
         self._clock = pygame.time.Clock()
@@ -51,6 +52,7 @@ class Screen:
         pygame.display.set_caption("Random Walk")
         font = pygame.font.SysFont("Arial", 48)
 
+        # Boucle principale du menu: rendu + gestion des clics.
         running = True
         while running:
             self._screen.fill("black")
@@ -60,6 +62,7 @@ class Screen:
             MENU_TEXT = font.render("Random Walk", True, "white")
             MENU_RECT = MENU_TEXT.get_rect(center=(640, 100))
 
+            # Boutons du menu principal.
             START_BUTTON = Button(
                 text="Start",
                 pos=(640, 300),
@@ -79,6 +82,7 @@ class Screen:
                 button.change_color(MENU_MOUSE_POS)
                 button.update()
 
+            # Gestion des evenements (clics, fermeture).
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
@@ -110,12 +114,14 @@ class Screen:
         walkers = world._walkers
         nmb_walkers = len(walkers)
 
+        # Palette de couleurs pour distinguer les marcheurs.
         colors = []
         for i in range(nmb_walkers):
             color = pygame.Color(0)
             color.hsva = (i * 360.0 / max(nmb_walkers, 1), 80, 100, 100)
             colors.append(color)
 
+        # Bornes du monde pour le cadrage automatique.
         min_x = max_x = 0.0
         min_y = max_y = 0.0
         paused = False
@@ -144,7 +150,9 @@ class Screen:
                 if y > max_y:
                     max_y = y
 
+        # Boucle principale de simulation.
         while running:
+            # Evenements clavier/fenetre.
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
@@ -168,6 +176,7 @@ class Screen:
                         logger.info("Fin de la simulation apres %s pas", steps_done)
                         running = False
 
+            # Conversion monde -> ecran (mise a l'echelle + centrage).
             screen_w, screen_h = self._screen.get_size()
             world_w = max_x - min_x
             world_h = max_y - min_y
@@ -196,6 +205,7 @@ class Screen:
 
             self._screen.fill("black")
 
+            # Dessin des trajectoires et positions courantes.
             for i, walker in enumerate(walkers):
                 color = colors[i % len(colors)]
                 path = walker.chemin
@@ -205,6 +215,7 @@ class Screen:
                 x, y = walker.position
                 pygame.draw.circle(self._screen, color, to_screen(x, y), 4)
 
+            # Infos d'etat (pause / raccourcis).
             if paused:
                 pause_text = font.render("Pause (space/p to resume)", True, "yellow")
                 self._screen.blit(pause_text, (10, 10))

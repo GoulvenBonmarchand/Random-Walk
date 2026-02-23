@@ -20,6 +20,7 @@ def main() -> None:
     Raises:
         ValueError: If an unknown pattern is provided.
     """
+    # Lecture des options CLI et preparation du logging.
     args = build_parser().parse_args()
 
     log_level = logging.WARNING
@@ -30,6 +31,7 @@ def main() -> None:
     logging.basicConfig(level=log_level, format="%(levelname)s:%(name)s:%(message)s")
     logger = logging.getLogger(__name__)
 
+    # Initialisation du generateur aleatoire et recapitulatif de config.
     logger.info("Demarrage de la simulation")
     seed(args.seed)
     logger.info(
@@ -42,6 +44,7 @@ def main() -> None:
         args.display,
     )
 
+    # Choix du modele de pas selon l'option CLI.
     step_model: type[StepModel]
     if args.pattern == "grid4":
         step_model = Grid4
@@ -52,8 +55,10 @@ def main() -> None:
     else:
         raise ValueError(f"Unknown pattern: {args.pattern}")
 
+    # Creation du monde de marcheurs.
     world = World(step_model, args.walkers)
     if args.display in ("screen", "both"):
+        # Lancement de l'interface graphique si demande.
         from .screen import Screen
 
         screen = Screen(world, simulation_fps=args.fps, max_steps=args.steps)
@@ -61,6 +66,7 @@ def main() -> None:
         screen.main_menue()
 
     if args.display in ("text", "both"):
+        # Simulation batch et export des trajectoires si demande.
         if args.display == "text":
             world.simulate(args.steps)
         world.to_file(args.output)
