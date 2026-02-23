@@ -2,7 +2,7 @@
 
 import logging
 
-from .walk_paterns import seed, Grid4, Grid8, Continuous
+from .walk_paterns import seed, Grid4, Grid8, Continuous, StepModel
 from .world import World
 from .parser import build_parser
 
@@ -42,6 +42,7 @@ def main() -> None:
         args.display,
     )
 
+    step_model: type[StepModel]
     if args.pattern == "grid4":
         step_model = Grid4
     elif args.pattern == "grid8":
