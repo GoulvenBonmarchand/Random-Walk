@@ -31,6 +31,7 @@ class Button:
         Returns:
             None.
         """
+        # Construit le libelle (ou utilise une surface deja rendue).
         self._label = text if isinstance(text, str) else None
         if self._label is None:
             self._text = text
@@ -42,6 +43,7 @@ class Button:
             self._rect = self._text_rect
         else:
             self._rect = self._image.get_rect(center=pos)
+        # Stocke les parametres utiles pour interactions et rendu.
         self._pos = pos
         self._font = font
         self._base_color = base_color
@@ -72,6 +74,7 @@ class Button:
         Returns:
             bool: True if inside the button, otherwise False.
         """
+        # Test simple "point dans rectangle".
         if position[0] in range(self._rect.left, self._rect.right) and position[1] in range(self._rect.top, self._rect.bottom):
             return True
         return False
@@ -88,6 +91,7 @@ class Button:
         """
         if self._label is None:
             return
+        # Change la couleur du texte selon le survol.
         if position[0] in range(self._rect.left, self._rect.right) and position[1] in range(self._rect.top, self._rect.bottom):
             color = self._hovering_color
         else:

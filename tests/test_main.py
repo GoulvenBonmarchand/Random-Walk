@@ -7,6 +7,8 @@ import random_walk.main as main_mod
 from random_walk import parser as parser_mod
 
 
+# Double de parser pour injecter des arguments controles.
+# Utile pour tester main() sans passer par la vraie ligne de commande.
 class DummyParser:
     def __init__(self, args):
         self._args = args

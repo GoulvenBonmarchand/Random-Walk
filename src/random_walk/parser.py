@@ -62,6 +62,7 @@ def build_parser() -> argparse.ArgumentParser:
         description="Simulation d'une marche aléatoire 2D (POO) avec affichage configurable.",
     )
 
+    # Parametres de simulation (alea, duree, vitesse).
     p.add_argument(
         "--seed",
         type=int,
@@ -80,6 +81,7 @@ def build_parser() -> argparse.ArgumentParser:
         default=24,
         help="Nombre d'images par seconde (FPS) pour la simulation.",
     )
+    # Modes d'affichage et de sortie.
     p.add_argument(
         "--display",
         type=str,
@@ -97,6 +99,7 @@ def build_parser() -> argparse.ArgumentParser:
         default="random_walk.txt",
         help="Fichier de sortie en mode text/both (par defaut: random_walk.txt).",
     )
+    # Logs, population et modele de marche.
     p.add_argument(
         "-v",
         "--verbose",
