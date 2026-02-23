@@ -14,9 +14,6 @@ class World:
     Args:
         step_model (type): Callable returning a step model instance.
         nmb_walkers (int): Number of walkers to create.
-
-    Attributes:
-        _walkers (list[Walker]): List of walkers in the world.
     """
 
     def __init__(self, step_model, nmb_walkers: int) -> None:
