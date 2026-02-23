@@ -7,12 +7,6 @@ class Walker:
 
     Args:
         step_model (type): Callable returning a step model instance.
-
-    Attributes:
-        _x (float): Current X position.
-        _y (float): Current Y position.
-        _chemin (list[tuple[float, float]]): Path history.
-        _model (Any): Step model instance.
     """
 
     def __init__(self, step_model) -> None:

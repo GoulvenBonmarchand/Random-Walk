@@ -13,18 +13,6 @@ class Button:
         base_color (str | tuple): Default text color.
         hovering_color (str | tuple): Hover text color.
         image (Any | None): Optional image surface.
-
-    Attributes:
-        _label (str | None): Stored label text.
-        _text (Any): Rendered text surface.
-        _text_rect (Any): Rect for the text surface.
-        _image (Any | None): Optional image surface.
-        _rect (Any): Rect used for hit-testing and drawing.
-        _pos (tuple[int, int]): Button center position.
-        _font (Any): Font used to render text.
-        _base_color (str | tuple): Default text color.
-        _hovering_color (str | tuple): Hover text color.
-        _screen (Any): Target screen surface.
     """
 
     def __init__(self, text, pos, font, screen, base_color="white", hovering_color="green", image=None):

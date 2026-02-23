@@ -16,13 +16,6 @@ class Screen:
         world (World): World instance to simulate and render.
         simulation_fps (int): Target FPS for the simulation loop.
         max_steps (int | None): Maximum steps to run (None for unlimited).
-
-    Attributes:
-        _screen (pygame.Surface): Pygame screen surface.
-        _clock (pygame.time.Clock): Frame timer.
-        _world (World): World instance.
-        _simulation_fps (int): Target FPS for simulation.
-        _max_steps (int | None): Maximum steps to run.
     """
 
     def __init__(self, world: World, simulation_fps: int = 24, max_steps: int | None = None) -> None:
